@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <title>Vasakronan - Solveig</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script type="module" src="{{ url_for('static', filename='searchAndModals.js') }}"></script>
+</head>
+
+<body>
+  <header>
+    <h1 id="headertext"><a href="/">Solveig</a></h1>
+    <div id="headerbuttonsdiv">
+      <button id="alertbutton" class="headerbutton">Skapa larm</button>
+      <button id="nerdbutton" class="headerbutton">Om hemsidan</button>
+    </div>
+  </header>
+
+  <div id="main_wrapper">
+    <div id="nerdmodal">
+      <div id="nerdmodalcont">
+        <span class="close" id="nerdmodalclose"">&times;</span>
+          <h1 class="header_txt">Välkommen till Solveig</h1>
+          <p>Solveig är ett verktyg för att hålla koll på solcellproduktionen för att veta om det produceras så mycket
+            som förväntas för ett givet tidsintervall.
+            Vi vet hur mycket som förväntas produceras genom maskininlärning - alltså att datorn lär sig mönster på
+            gammal data från solcellerna.
+          </p>
+          <h3>Varför är den data som presenteras lite gammal typ?</h3>
+          <p><strong>Väl observerat!</strong> Jo, det är nämligen så att
+            den presenterade datan kommer från <a href="https://metry.io">Metry</a>. De rapporterar
+            i nuläget inte in data förrän <i>efter</i> månaden är slut. Alltså kommer inte data för juni månad vara
+            tillgänglig
+            förrän i början av juli osv.
+          </p>
+          <p>
+            Det har gjort att jag har valt att man enbart får tillgång till data som är en månad gammal från dagens
+            datum - alltså som nu när jag skriver detta
+            (21/6-22) så har jag tillgång till data till och med 21 maj.
+          </p>
+          <h3>Hur läser jag av hemsidan?</h3>
+          <p>På den här sidan så presenteras data för den energi som genererats av solceller som
+            Vasakronan äger. Med dessa visas också uppskattade värden som beräknats med hjälp av en
+            maskininlärningsmodell
+            som jag har snickrat ihop. Denna algoritm gissar (ganska bra ofta!!) hur mycket som bör produceras av
+            solcellerna
+            för en viss dag och en viss plats. Denna kan sedan visas bredvid den faktiskt producerade elen från
+            solcellerna.
+            <br>
+            Tanken är att man då får en uppfattning om det är något tokigt i solcellerna eller inte.
+          </p>
+          <h3>Jag har valt en anläggning men ser ingen data - vad har hänt?</h3>
+          <p>Vissa anläggningar har ingen data mellan de valda datumen, alternativt har ingen data alls. Det gör att jag
+            inte kan visa någon data - tyvärr.</p>
+          <h3>Hur fungerar maskininlärningen? (För nördar 🤓)</h3>
+          <p>
+            Denna hemsida fungerar genom att den valda stadens latitud och
+            longitud används för att få solinstrålningen till staden för en given
+            dag. Solinstrålningen hämtas genom STRÅNG-APIet som tillhandahålls av
+            SMHI.
+            <br />
+            Solinstrålningen skickas sedan till en maskininlärningsalgorithm - som
+            har tränat på massa mätdata från Vasakronans solceller i relation till
+            solinstrålning - som gör sitt bästa för att uppskatta elproduktionen
+            för dagen i den valda staden.
+            <br />
+            Den algorim som nu används för att förutspå effekten per timme och stad är ett så kallat neural network -
+            algoritmen heter specifikt MLPRegressor. Medan algoritmen som används för att förutspå den energi som skapas
+            per dag och per anläggning är en ensemble-modell som heter <i>RandomForestRegressor</i>.
+            <br /><br />
+            Ganska kul och ganska coolt. (eller?)
+            <br /><br />
+            Själva maskininlärningsmodellen är byggd i Python med Scikit-Learn och har sedan sparats via Pickle för att
+            enkelt kunna återanvändas.
+            Backenden till denna hemsida använder Flask för att enkelt kunna koppla till maskininlärningsmodellerna.
+            Vill du läsa mer om modellerna och kolla hur allt är byggt finns källkoden på min <a href="https://github.com/NiklasVasa/FDD_Project">GitHub</a>.
+          <h4>Hur bra är modellerna då?</h4>
+          <p>Varje anläggning har sin egna modell - för att det förutspådda värdet ska vara så bra som möjligt. De bästa
+            modellerna har en score på ungefär 0.75 (på en skala 0-1).
+            Denna score specificeras som att den "Return the coefficient of determination of the prediction." av <a
+              href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html">Scikit-Learn</a>
+            utvecklarna.
+            Kort och gott: Högre score är bättre! En score på 0 betyder att den varken är bra eller dålig.
+          </p>
+          </p>
+          <h3>Här är en bild på Solveig (hon som räknar ut alla grejer alltså)</h3>
+          <img src="../static/cool-sol.jpeg">
+      </div>
+    </div>
+    <div id="alertmodal">
+      <div id="alertmodalcont">
+        <span class="close" id="alertmodalclose"">&times;</span>
+            <h1 class="header_txt">Här kan du skapa larm!</h1>
+            <p>Tanken är att det ska skickas ett mail till dig om den solcellsanläggning som du är intresserad av har en elproduktion som skiljer sig för mycket från den förutspådda under fem konsekventa dagar.</p>
+            <p>Fyll i formuläret nedan för att få larm när något inte står rätt till med solcellen.</p>
+            <form action="/signup" method="POST" name="alertform">
+              <label for="email">Din E-post</label>
+              <input name ="email" type="email" id="email"/>
+              <label for="city">Välj stad:</label>
+              <select name="city" id="ddlCityAlert">
+                <option value="stockholm">Stockholm</option>
+                <option value="uppsala">Uppsala</option>
+                <option value="gothenburg">Göteborg</option>
+                <option value="malmoe">Malmö</option>
+              </select>
+    
+              <label for="meters_alert" id="meter_label_alert" class="meters_input""">Välj anläggning:</label>
+              <select name="meters_alert" id="meters_alert" class="meters_input" multiple></select>
+    
+              <input type="submit" value="Välj" id="submitalertbutton" />
+              <p>E-posten skickas från addressen solveig.solcell@gmail.com - kolla skräpposten om du inte har fått mailet! ☀️<br>
+              Observera också att du kan göra flera alerts om du vill ha koll på mätare från olika städer.</p>
+            </form>
+          </div>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div id="chart2" class="chart"></div>
+      <div id="chart3" class="chart"></div>
+      <div id="formdiv">
+        <!-- This form is for setting different dates to be displayed in the graph. -->
+        <form action="/selected" method="GET" id="date_city_form">
+          <label for="start">Från datum:</label>
+          <input type="date" id="start" name="PV-start" value="{{frm}}" min="2018-01-01" max="{{to}}" />
+
+          <label for="end">Till datum:</label>
+          <input type="date" id="end" name="PV-end" value="{{to}}" min="2018-01-01" max="{{to}}" />
+
+          <!-- This form is for selecting which cities PV to view. -->
+          <label for="city">Välj stad:</label>
+          <select name="city" id="ddlCity">
+            <option value="all_cities">Alla städer</option>
+            <option value="stockholm">Stockholm</option>
+            <option value="uppsala">Uppsala</option>
+            <option value="gothenburg">Göteborg</option>
+            <option value="malmoe">Malmö</option>
+          </select>
+
+          <label for="meters" id="meter_label" class="meters_input""">Välj anläggning:</label>
+          <select name="meters" id="meters" class="meters_input" multiple></select>
+
+          <input type="submit" value="Välj" id="submitbutton" />
+        </form>
+      </div>
+      <div id="aboutheader">
+        <h1>Om Solveig</h1>
+      </div>
+      <div id="abouttext">
+        <p>
+          Detta är ett verktyg som håller koll på Vasakronans solceller genom
+          maskininlärning. <br />
+          I grafen visas en massa grejer. De linjer som bara heter städers
+          namn visar produktionen från en solcellsanläggning i staden - medan de
+          linjer som heter "Modell..." visar algoritmens beräknade värde för en
+          solcell i den staden.
+        </p>
+      </div>
+    </div>
+    <footer>
+      <p>Utvecklad av <a href="https://www.linkedin.com/in/niklas-norinder-90805b16a/" id="name">Niklas Norinder</a> för
+        Vasakronan 2022. </p>
+      <p><a href="https://vasakronan.se">Vasakronans hemsida</a></p>
+    </footer>
+</body>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+  var graphs = {{ graphJSON | safe}};
+  Plotly.plot('chart', graphs, {});
+</script>
+<script type="text/javascript">
+  var graph2 = {{ graphJSON2 | safe}};
+  Plotly.plot('chart2', graph2, {});
+</script>
+<script type="text/javascript">
+  var graph3 = {{ graphJSON3 | safe}};
+  Plotly.plot('chart3', graph3, {});
+</script>
+
+</html>
