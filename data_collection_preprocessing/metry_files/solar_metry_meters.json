@@ -1,0 +1,186 @@
+{
+    "code": 200,
+    "message": "OK",
+    "profiling": null,
+    "data": {
+        "_id": "586a1452dc16d4006255b002",
+        "ean": "1704268",
+        "name": "13425, Inom Vallgraven 22:16, Meethshuset",
+        "holder": {
+            "_id": "557932864e185960008b6e04",
+            "name": "Vasakronan",
+            "username": null
+        },
+        "root": {
+            "_id": "586a13dddc16d40061427130",
+            "holder": {
+                "_id": "5784bcc191a2495b008b4582",
+                "name": "Rejlers Energitj\u00e4nster",
+                "entity_type": "utility_provider"
+            }
+        },
+        "assigner": {
+            "_id": "5784bcc191a2495b008b4582",
+            "name": "Rejlers Energitj\u00e4nster",
+            "username": "rejlersenergitjanster-utility@metry.io",
+            "manager": {
+                "_id": null
+            }
+        },
+        "created": "2017-01-02T08:50:26+0000",
+        "children": [],
+        "address": "",
+        "timezone": "Etc/GMT-1",
+        "control_level": "subscribed",
+        "billing_category": "utility_meter",
+        "generation": 1,
+        "tags": [
+            "Solceller"
+        ],
+        "box": "active",
+        "revoked": false,
+        "metrics": [
+            "energy"
+        ],
+        "type": "electricity",
+        "consumption_stats": {
+            "energy": {
+                "hour": {
+                    "count": 47842,
+                    "sum": 330546.1700019578,
+                    "max": 50.7,
+                    "last": 2022060109,
+                    "min": 0,
+                    "first": 2016121600
+                },
+                "day": {
+                    "count": 1993,
+                    "sum": 330422.3500019998,
+                    "max": 504.22999999999996,
+                    "last": 20220531,
+                    "min": 0,
+                    "first": 20161216
+                },
+                "month": {
+                    "count": 65,
+                    "sum": 330170.56000199995,
+                    "max": 12030.179999999993,
+                    "last": 202205,
+                    "min": 387.59999999999997,
+                    "first": 201701
+                }
+            }
+        },
+        "cost_stats": {},
+        "readings_stats": null,
+        "has_active_complaints": false,
+        "representation": "production",
+        "open_channel_ids": null,
+        "on_hold": null,
+        "last_sla_comment": "2021-02-08T03:28:35+0000",
+        "location": null,
+        "operations_provider": null,
+        "meta_data": {
+            "customer_number": null,
+            "name": null,
+            "address": null,
+            "fuse": null,
+            "meter_constant": null,
+            "contract_name": null,
+            "contract_start": null,
+            "contract_end": null,
+            "settlement_method": null,
+            "estimated_yearly_consumption": null,
+            "device_id": null,
+            "additional_data": null
+        },
+        "collection_window_start": 0,
+        "collection_window": 5,
+        "collection_window_end": 5,
+        "memo": null,
+        "active_box_tree_paths": [
+            [
+                {
+                    "_id": "614b288ed36b0038600833e6",
+                    "name": "Solcellsanl\u00e4ggningar"
+                }
+            ],
+            [
+                {
+                    "_id": "616e5b8c0356970b68545858",
+                    "name": "Huvud o viktiga m\u00e4tare"
+                }
+            ]
+        ],
+        "robot": {
+            "_id": "57a03c043205435c008b5963"
+        },
+        "active": true,
+        "import_ids": null,
+        "assumed_granularity": "month",
+        "expected_granularity": "month",
+        "expected_metrics": [
+            "energy"
+        ],
+        "readings_conflicts_stats": null,
+        "deleted": false,
+        "active_complaint_sent": null,
+        "active_complaint": null,
+        "has_feed": true,
+        "feed_heartbeats": null,
+        "feed_ids": [
+            "57a03c043205435c008b5963",
+            "5937b517a476a8006d0d8eb2"
+        ],
+        "is_merged": false,
+        "_status ": "not_connected",
+        "_identifier": "13425, Inom Vallgraven 22:16, Meethshuset ()",
+        "_is_owner": true,
+        "robot_last_run": "2022-06-08T07:23:34+0000",
+        "notifications": [],
+        "snapshots": [
+            {
+                "_id": "5b1549ab40cbd30004274529",
+                "created_at": "2018-06-04T15:16:11+0100",
+                "period": []
+            },
+            {
+                "_id": "5b235f392dea0a000434eda9",
+                "created_at": "2018-06-15T07:39:53+0100",
+                "period": []
+            },
+            {
+                "_id": "5b3e0e5f6ca56c00040576b3",
+                "created_at": "2018-07-05T13:26:07+0100",
+                "period": []
+            },
+            {
+                "_id": "5b8a42c127af8d00040291b2",
+                "created_at": "2018-09-01T08:41:53+0100",
+                "period": []
+            },
+            {
+                "_id": "5e16dbbc8cc24f2313253a0e",
+                "created_at": "2020-01-09T08:52:28+0100",
+                "period": []
+            }
+        ],
+        "holder_has_sla": true,
+        "has_recent_suspected_volumes": false,
+        "recent_suspected_volumes": null,
+        "tree_structure_ids": [
+            "614b288ed36b0038600833e6",
+            "5bb61bf087729e00756e7cfe",
+            "616e5b8c0356970b68545858",
+            "5bb61bf087729e00756e7cfe"
+        ],
+        "tree_parent_node_ids": [
+            "614b288ed36b0038600833e6",
+            "616e5b8c0356970b68545858"
+        ],
+        "missing_recent_reading": false,
+        "last_invoice_date": null,
+        "invoice_frequency": null,
+        "last_invoice_status": null
+    }
+}
